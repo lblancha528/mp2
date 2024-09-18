@@ -6,3 +6,4 @@
 
 // Acknowledgments: MP2 instructions
 //                  Setting up a New Project article
+//                  Tuesday evening tutors: Auaash, Charles Wade
