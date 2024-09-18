@@ -4,7 +4,7 @@ package edu.grinnell.csc207.util;
  * A register to hold calculated values.
  */
 public class BFRegisterSet {
-    // +--------+---------------------------------------------------------
+  // +--------+---------------------------------------------------------
   // | Fields |
   // +--------+
 
@@ -12,7 +12,17 @@ public class BFRegisterSet {
    * A BigFraction array.
    * Indices correspond to a letter, where a = 0, b = 1, etc.
    */
-  BigFraction[] storage = new BigFraction[26];
+  BigFraction[] storage;
+  // +--------------+-------------------------------------------------
+  // | Constructors |
+  // +--------------+
+
+  /**
+   * Build an empty register.
+   */
+  public BFRegisterSet() {
+    this.storage = new BigFraction[26];
+  }
 
   // +---------+--------------------------------------------------------
   // | Methods |

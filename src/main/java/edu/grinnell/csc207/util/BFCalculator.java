@@ -1,11 +1,16 @@
 package edu.grinnell.csc207.util;
 
-import java.math.BigInteger;
-
+import edu.grinnell.csc207.util.BigFraction;
 /**
  * Calculates values relative to the last computed value.
  */
 public class BFCalculator {
+  // +----------+-----------------------------------------------------
+  // | Constants |
+  // +-----------+
+
+    /** The value zero as a BigFraction. */
+    BigFraction zeroFrac = new BigFraction(0, 0);
 
   // +--------+---------------------------------------------------------
   // | Fields |
@@ -15,6 +20,20 @@ public class BFCalculator {
    * The last calculated value.
    */
   BigFraction lastValue;
+
+  // +--------------+---------------------------------------------------
+  // | Constructors |
+  // +--------------+
+
+  /**
+   * Build a calculator with lastValue initialized to provided value.
+   * @param init
+   *   A big fraction to set the lastValue
+   * @return void
+   */
+  public BFCalculator(BigFraction init) {
+    this.lastValue = init;
+  }
 
   // +---------+--------------------------------------------------------
   // | Methods |
