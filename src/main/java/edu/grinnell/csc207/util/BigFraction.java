@@ -18,7 +18,10 @@ public class BigFraction {
   // +-----------+
 
   /** The value 1 as a BigInteger. */
-  BigInteger one = BigInteger.valueOf(1);
+  BigInteger bione = BigInteger.valueOf(1);
+
+  /** The value 0 as a BigInteger. */
+  BigInteger bizero = BigInteger.valueOf(0);
 
   // +--------+-------------------------------------------------------
   // | Fields |
@@ -73,13 +76,13 @@ public class BigFraction {
    */
   public BigFraction(String str) {
     if (str.indexOf('/') == -1) {
+      // if there is no slash, save as whole number
       this.num = new BigInteger(str);
-      this.denom = one;
-    } // if
-
-    this.num = new BigInteger(str.substring(0, str.indexOf((int) '/')));
-    this.denom = new BigInteger(str.substring(str.indexOf((int) '/') + 1, str.length() - 1));
-
+      this.denom = bione;
+    } else {
+      this.num = new BigInteger(str.substring(0, str.indexOf((int) '/')));
+      this.denom = new BigInteger(str.substring(str.indexOf((int) '/') + 1, str.length()));
+    } // else save around slash
   } // BigFraction
 
   // +---------+------------------------------------------------------
@@ -96,11 +99,17 @@ public class BigFraction {
    * @return the result of the addition
    */
   public BigFraction add(BigFraction val) {
-    BigInteger newNum;
-    BigInteger newDenom;
+    BigInteger newNum = bizero;
+    BigInteger newDenom = bizero;
 
-    newDenom = this.denom.multiply(val.denom);
-    newNum = (this.num.multiply(val.denom)).add(val.num.multiply(this.denom));
+    if (this.denom.equals(bizero) || this.num.equals(bizero)) {
+      newNum = val.num;
+      newDenom = val.denom;
+    } else {
+      newDenom = this.denom.multiply(val.denom);
+      newNum = (this.num.multiply(val.denom)).add(val.num.multiply(this.denom));
+    } // else
+
     BigFraction newFrac = new BigFraction(newNum, newDenom);
     newFrac.simplify();
     return newFrac;
@@ -168,11 +177,11 @@ public class BigFraction {
   /**
    * Simplify this fraction down into an unreduceable fraction.
    *
-   * Modifies passed fraction.
+   * Modifies this fraction.
    */
   public void simplify() {
     BigInteger gcd = this.num.gcd(this.denom);
-    if (gcd != one) {
+    if (gcd != bione) {
       this.num = this.num.divide(gcd);
       this.denom = this.denom.divide(gcd);
     } // if
@@ -183,7 +192,8 @@ public class BigFraction {
    * Find the numerator of this fraction.
    * @return numerator
    */
-  public BigInteger num() {
+  public BigInteger numerator() {
+    this.simplify();
     return this.num;
   } // num()
 
@@ -191,7 +201,8 @@ public class BigFraction {
    * Find the denominator of this fraction.
    * @return denominator
    */
-  public BigInteger denom() {
+  public BigInteger denominator() {
+    this.simplify();
     return this.denom;
   } // denom()
 
@@ -202,9 +213,15 @@ public class BigFraction {
    * @return this fraction as a string
    */
   public String toString() {
-    if (this.num.equals(BigInteger.ZERO)) {
+    this.simplify();
+    if (this.num.equals(bizero)) {
+      // if it's zero
       return "0";
-    } // if it's zero
-    return this.num + "/" + this.denom;
+    } else if (this.denom.equals(bione)) {
+      // if it's a whole number
+      return this.num + "";
+    } else {
+      return this.num + "/" + this.denom;
+    } // else
   } // toString()
 } // class InteractiveCalculator

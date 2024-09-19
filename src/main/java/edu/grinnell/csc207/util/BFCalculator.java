@@ -32,6 +32,14 @@ public class BFCalculator {
     this.lastValue = init;
   } // construct a BFCalculator
 
+  /**
+   * Build a calculator with lastValue initialized to zeroFrac.
+   * @return
+   */
+  public BFCalculator() {
+    this.lastValue = zeroFrac;
+  } // construct BFCalculator
+
   // +---------+--------------------------------------------------------
   // | Methods |
   // +---------+
@@ -52,6 +60,7 @@ public class BFCalculator {
    *   value to be added
    */
   public void add(BigFraction val) {
+    this.lastValue = this.lastValue.add(val);
     return;
   } // add(BigFraction)
 
@@ -61,6 +70,7 @@ public class BFCalculator {
    *   value to be subtracted
    */
   public void subtract(BigFraction val) {
+    this.lastValue = this.lastValue.subtract(val);
     return;
   } // subtract(BigFraction)
 
@@ -70,6 +80,7 @@ public class BFCalculator {
    *  value to be multiplied
    */
   public void multiply(BigFraction val) {
+    this.lastValue = this.lastValue.multiply(val);
     return;
   } // multiply(BigFraction)
 
@@ -79,6 +90,7 @@ public class BFCalculator {
    *  value to be divided by
    */
   public void divide(BigFraction val) {
+    this.lastValue = this.lastValue.divide(val);
     return;
   } // divide(BigFraction)
 
@@ -86,6 +98,7 @@ public class BFCalculator {
    * Resets the last computed value to 0.
    */
   public void clear() {
+    this.lastValue = zeroFrac;
     return;
   } // clear()
 } // class BFCalculator

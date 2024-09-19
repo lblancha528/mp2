@@ -30,7 +30,7 @@ public class InteractiveCalculator {
   static String operand = null;
 
   /** To store command given. */
-  static String command = null;
+  static String command = "RUN";
 
   /** To store the refister address if STORE command is found. */
   static char register = '\0';
@@ -66,25 +66,26 @@ public class InteractiveCalculator {
       BFCalculator calculator = new BFCalculator(firstVal); // set up the calculator
 
       if (command.equals("STORE")) {
+        // if command is STORE, store most recently computed value
         storage.store(register, result);
         pen.println("STORED\n");
-      } // if command is STORE, store most recently computed value
-      else if (operand.equals("+")) {
+      } else if (operand.equals("+")) {
+        // if adding
         calculator.add(secondVal);
         result = calculator.get();
-      } // if adding
-      else if (operand.equals("-")) {
+      } else if (operand.equals("-")) {
+        // if subtracting
         calculator.subtract(secondVal);
         result = calculator.get();
-      } // if subtracting
-      else if (operand.equals("*")) {
+      } else if (operand.equals("*")) {
+        // if multiplying
         calculator.multiply(secondVal);
         result = calculator.get();
-      } // if multiplying
-      else if (operand.equals("/")) {
+      } else if (operand.equals("/")) {
+        // if dividing
         calculator.divide(secondVal);
         result = calculator.get();
-      } // if dividing
+      } // else
       // CLOSING ELSE??
 
       pen.println(result.toString());
@@ -106,45 +107,48 @@ public class InteractiveCalculator {
   public static char sortArg(String arg) {
     // If STORE or QUIT, save to command
     if (arg.equals("STORE") || arg.equals("QUIT")) {
+      // if found command
       command = arg;
       return 'c';
-    } // if found command
-    // main will then save the register, nothing to do here
-    else if (arg.length() == 1) {
+      // main will then save the register, nothing to do here
+    } else if (arg.length() == 1) {
+      // else if arg is a register name, save value
       char ch = arg.charAt(0);
       if (!foundFirst) {
+        // if first value has not been found, save there
         firstVal = storage.get(ch);
         return 'r';
-      } // if first value has not been found, save there
-      else {
+      } else {
+        // else save as second value
         secondVal = storage.get(ch);
         return 'r';
-      } // else save as second value
-    } // else if arg is a register name, save value  
-    else if (arg.equals("*") || arg.equals("+") || arg.equals("/") || arg.equals("-")) {
+      } // else
+    }  else if (arg.equals("*") || arg.equals("+") || arg.equals("/") || arg.equals("-")) {
+      // else if is operand, save as operand
       operand = arg;
       return 'o';
-    } // else if is operand, save as operand
-    else if (isFracStr(arg)) {
+    } else if (isFracStr(arg)) {
+      // else, must be a numeric value
       if (!foundFirst) {
+        // if first value has not been found, save there
         firstVal = new BigFraction(arg);
         return 'v';
-      } // if first value has not been found, save there
-      else {
+      } else {
+        // else save as second value
         secondVal = new BigFraction(arg);
         return 'v';
-      } // else save as second value
-    } // else, must be a numeric value
-    else {
+      } // else
+    } else {
+      // else must be an error
       // If we got this far, something went wrong.
       // Print error and return error key.
       System.err.print("Error: invalid argument provided. \n");
       return 'e';
-    } // else must be an error
+    } // else
   } // sortArg(String)
 
   /**
-   * Confirm that a given string is a string representation of a fraction or whole number. 
+   * Confirm that a given string is a string representation of a fraction or whole number.
    *   i.e. consists of only digits and has one or fewer '/'
    * @param str
    *   string to be parsed for validity
@@ -155,16 +159,18 @@ public class InteractiveCalculator {
     boolean foundSlash = false;
     for (int i = 0; i < str.length(); i++) {
       if (str.charAt(i) == '/') {
+        // if char is a slash
         if (!foundSlash) {
+          // if multiple slashes have been found, return invalid
           return false;
-        } // if multiple slashes have been found, return invalid
-        else {
+        } else {
+          // else, first slash has been found
           foundSlash = true;
-        } // else, first slash has been found
-      } // if char is a slash
-      else if (!Character.isDigit(str.charAt(i))) {
+        } // else
+      } else if (!Character.isDigit(str.charAt(i))) {
+        // if char is not a digit
         return false;
-      } // if char is not a digit
+      } // else
     } // for each character in suspect string
     return true;
   } // isFracStr(String)
