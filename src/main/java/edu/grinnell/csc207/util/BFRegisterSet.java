@@ -22,7 +22,7 @@ public class BFRegisterSet {
    */
   public BFRegisterSet() {
     this.storage = new BigFraction[26];
-  }
+  } // construct a BFRegisterSet
 
   // +---------+--------------------------------------------------------
   // | Methods |

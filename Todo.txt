@@ -1,0 +1,2 @@
+- If fraction has denominator 1, return/ print the value as a whole number. Just print the numerator.
+- 
