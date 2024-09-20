@@ -99,20 +99,16 @@ public class BigFraction {
    * @return the result of the addition
    */
   public BigFraction add(BigFraction val) {
-    BigInteger newNum = bizero;
-    BigInteger newDenom = bizero;
-
     if (this.denom.equals(bizero) || this.num.equals(bizero)) {
-      newNum = val.num;
-      newDenom = val.denom;
+      this.num = val.num;
+      this.denom = val.denom;
     } else {
-      newDenom = this.denom.multiply(val.denom);
-      newNum = (this.num.multiply(val.denom)).add(val.num.multiply(this.denom));
+      this.num = (this.num.multiply(val.denom)).add(val.num.multiply(this.denom));
+      this.denom = this.denom.multiply(val.denom);
     } // else
 
-    BigFraction newFrac = new BigFraction(newNum, newDenom);
-    newFrac.simplify();
-    return newFrac;
+    this.simplify();
+    return this;
   } // add(BigFraction)
 
   /**

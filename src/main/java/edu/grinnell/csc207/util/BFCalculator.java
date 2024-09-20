@@ -1,4 +1,6 @@
 package edu.grinnell.csc207.util;
+
+import java.math.BigInteger;
 /**
  * Calculates values relative to the last computed value.
  */
@@ -7,8 +9,14 @@ public class BFCalculator {
   // | Constants |
   // +-----------+
 
-    /** The value zero as a BigFraction. */
-  BigFraction zeroFrac = new BigFraction(0, 0);
+  /** The value zero as a BigFraction. */
+  BigFraction zeroFrac = new BigFraction(0, 1);
+
+  /** The value 0 as a BigInteger. */
+  BigInteger bizero = BigInteger.valueOf(0);  
+
+  /** The value 1 as a BigInteger. */
+  BigInteger bione = BigInteger.valueOf(1);  
 
   // +--------+---------------------------------------------------------
   // | Fields |
@@ -51,7 +59,7 @@ public class BFCalculator {
    * @return the last computed value
    */
   public BigFraction get() {
-    return new BigFraction(0, 1);
+    return this.lastValue;
   } // get()
 
   /**
@@ -99,6 +107,8 @@ public class BFCalculator {
    */
   public void clear() {
     this.lastValue = zeroFrac;
+    this.lastValue.num = bizero;
+    this.lastValue.denom = bione;
     return;
   } // clear()
 } // class BFCalculator

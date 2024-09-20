@@ -1,4 +1,4 @@
-package edu.grinnell.csc207;
+package edu.grinnell.csc207.main;
 
 // import edu.grinnell.csc207.util.BigFraction;
 

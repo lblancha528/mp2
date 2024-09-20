@@ -10,3 +10,4 @@
 //                  Tuesday evening tutors: Auaash, Charles Wade
 //                  Wednesday evening tutors: Audrey, Boston
 //                  Thursday after class: SamR
+//                  Thursday evening tutor: Ethan
