@@ -26,11 +26,17 @@ public class InteractiveCalculator {
   /** To store second number/fraction. */
   static BigFraction secondVal = zeroFrac;
 
+  /** To check if second value has been found. */
+  static boolean foundSecond = false;
+
   /** To store operand of expression. */
-  static String operand = null;
+  static String operand = " ";
 
   /** To store command given. */
   static String command = "RUN";
+
+  /** To check if a command has been found. */
+  static boolean foundCommand = false;
 
   /** To store the refister address if STORE command is found. */
   static char register = '\0';
@@ -38,6 +44,10 @@ public class InteractiveCalculator {
   /** The register where values are stored. */
   static BFRegisterSet storage = new BFRegisterSet();
 
+  // +---------+--------------------------------------------------------
+  // | Methods |
+  // +---------+
+  
   /**
    * Continuously take input from the user and prints the computed results.
    * @param args
@@ -47,50 +57,66 @@ public class InteractiveCalculator {
     PrintWriter pen = new PrintWriter(System.out, true);
     Scanner eyes = new Scanner(System.in);
 
-    String lookingAt = null; // to store the token currently being looked at
+    String lookingAt; // to store the token currently being looked at
     BigFraction result = zeroFrac;
 
-    while (command.equals("QUIT")) {
+    while (!command.equals("QUIT")) {
+      
       // SAVE STUFF
-      lookingAt = eyes.next();
-      while (eyes.hasNext()) {
+      while (!foundCommand && !foundSecond) {
+        lookingAt = eyes.next();
         char action = sortArg(lookingAt);
-        if (action == 'c') {
+        if (action == 's') {
+          // if action was STORE, next argument is register.
           lookingAt = eyes.next();
           register = lookingAt.charAt(0);
           break;
-        } // if action was command, next argument is register.
-        lookingAt = eyes.next();
-      } // while there are more tokens
+        } else if (action == 'q') {
+          // if action was QUIT, quit ASAP
+          eyes.close();
+          return;
+        }
+      } // while a command or second variable have not beed found
 
       BFCalculator calculator = new BFCalculator(firstVal); // set up the calculator
 
       if (command.equals("STORE")) {
         // if command is STORE, store most recently computed value
         storage.store(register, result);
-        pen.println("STORED\n");
+        pen.println("STORED");
       } else if (operand.equals("+")) {
         // if adding
         calculator.add(secondVal);
         result = calculator.get();
+        pen.println(result.toString());
       } else if (operand.equals("-")) {
         // if subtracting
         calculator.subtract(secondVal);
         result = calculator.get();
+        pen.println(result.toString());
       } else if (operand.equals("*")) {
         // if multiplying
         calculator.multiply(secondVal);
         result = calculator.get();
+        pen.println(result.toString());
       } else if (operand.equals("/")) {
         // if dividing
         calculator.divide(secondVal);
         result = calculator.get();
+        pen.println(result.toString());
       } // else
       // CLOSING ELSE??
 
-      pen.println(result.toString());
+      // Reset values
+      firstVal = zeroFrac;
+      secondVal = zeroFrac;
+      foundFirst = false;
+      foundSecond = false;
+      command = "RUN";
+      operand = " ";
+      foundCommand = false;
+      register = '\n';
     } // while command is not QUIT, continue prompting for input
-
     eyes.close();
     return;
   } // main()
@@ -101,42 +127,52 @@ public class InteractiveCalculator {
    *   a token of command line input to be saved
    * @return char
    *   character corresponding to which value was saved.
-   *   c: command, v: numeric value, o: operand, r: register name, e: error
+   *   s: store, v: numeric value, o: operand, r: register name, e: error
    * Alters static fields.
    */
   public static char sortArg(String arg) {
     // If STORE or QUIT, save to command
-    if (arg.equals("STORE") || arg.equals("QUIT")) {
-      // if found command
+    if (arg.equals("STORE")) {
+      // if STORE
       command = arg;
-      return 'c';
+      foundCommand = true;
+      return 's';
       // main will then save the register, nothing to do here
+    } else if (arg.equals("QUIT")) {
+      // if QUIT
+      command = arg;
+      foundCommand = true;
+      return 'q';
+    } else if (arg.equals("*") || arg.equals("+") || arg.equals("/") || arg.equals("-")) {
+      // else if is operand, save as operand
+      operand = arg;
+      return 'o';
+    } else if (isFracStr(arg) == true) {
+      // else, must be a numeric value
+      if (!foundFirst) {
+        // if first value has not been found, save there
+        firstVal = new BigFraction(arg);
+        foundFirst = true;
+        return 'v';
+      } else {
+        // else save as second value
+        secondVal = new BigFraction(arg);
+        foundSecond = true;
+        return 'v';
+      } // else
     } else if (arg.length() == 1) {
       // else if arg is a register name, save value
       char ch = arg.charAt(0);
       if (!foundFirst) {
         // if first value has not been found, save there
         firstVal = storage.get(ch);
+        foundFirst = true;
         return 'r';
       } else {
         // else save as second value
         secondVal = storage.get(ch);
+        foundSecond = true;
         return 'r';
-      } // else
-    }  else if (arg.equals("*") || arg.equals("+") || arg.equals("/") || arg.equals("-")) {
-      // else if is operand, save as operand
-      operand = arg;
-      return 'o';
-    } else if (isFracStr(arg)) {
-      // else, must be a numeric value
-      if (!foundFirst) {
-        // if first value has not been found, save there
-        firstVal = new BigFraction(arg);
-        return 'v';
-      } else {
-        // else save as second value
-        secondVal = new BigFraction(arg);
-        return 'v';
       } // else
     } else {
       // else must be an error
@@ -160,7 +196,7 @@ public class InteractiveCalculator {
     for (int i = 0; i < str.length(); i++) {
       if (str.charAt(i) == '/') {
         // if char is a slash
-        if (!foundSlash) {
+        if (foundSlash) {
           // if multiple slashes have been found, return invalid
           return false;
         } else {

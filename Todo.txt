@@ -1,4 +1,4 @@
 - If fraction has denominator 1, return/ print the value as a whole number. Just print the numerator.
-- BF.add() doesn't work. Always returns zero.
-- util package doesn't exist when run 
-- symbols in IC cannot be found
+- BFC.store(char) does not store properly, something with letter2int? indexes always too small
+- Line read in bad
+- Command QUIT not recognized

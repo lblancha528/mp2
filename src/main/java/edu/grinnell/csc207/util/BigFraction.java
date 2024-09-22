@@ -99,16 +99,20 @@ public class BigFraction {
    * @return the result of the addition
    */
   public BigFraction add(BigFraction val) {
+    BigInteger newNum = new BigInteger("0");
+    BigInteger newDenom = new BigInteger("1");
+
     if (this.denom.equals(bizero) || this.num.equals(bizero)) {
-      this.num = val.num;
-      this.denom = val.denom;
+      newNum = val.num;
+      newDenom = val.denom;
     } else {
-      this.num = (this.num.multiply(val.denom)).add(val.num.multiply(this.denom));
-      this.denom = this.denom.multiply(val.denom);
+      newNum = (this.num.multiply(val.denom)).add(val.num.multiply(this.denom));
+      newDenom = this.denom.multiply(val.denom);
     } // else
 
-    this.simplify();
-    return this;
+    BigFraction newFrac = new BigFraction(newNum, newDenom);
+    newFrac.simplify();
+    return newFrac;
   } // add(BigFraction)
 
   /**
@@ -177,7 +181,10 @@ public class BigFraction {
    */
   public void simplify() {
     BigInteger gcd = this.num.gcd(this.denom);
-    if (gcd != bione) {
+    if (this.denom == bizero){
+      // if denominator is zero, dont
+      return;
+    } else if (gcd != bione) {
       this.num = this.num.divide(gcd);
       this.denom = this.denom.divide(gcd);
     } // if
