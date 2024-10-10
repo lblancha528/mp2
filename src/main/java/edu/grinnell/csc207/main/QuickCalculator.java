@@ -21,6 +21,9 @@ public class QuickCalculator {
       sets[i] = stringToArray(args[i]);
     } // for
 
+    // split into array elements by ""
+    // copy IC, call on each element
+
     // BigFraction first = new BigFraction(args[0], 1); // string is
     for (int i = 0; i < args.length; i++) {
       InteractiveCalculator.main(sets[i]);
