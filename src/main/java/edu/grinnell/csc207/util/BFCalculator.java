@@ -3,6 +3,8 @@ package edu.grinnell.csc207.util;
 import java.math.BigInteger;
 /**
  * Calculates values relative to the last computed value.
+ * @author Lily Blanchard
+ * for CSC207-01 with Rebelsky
  */
 public class BFCalculator {
   // +----------+-----------------------------------------------------
@@ -13,10 +15,10 @@ public class BFCalculator {
   BigFraction zeroFrac = new BigFraction(0, 1);
 
   /** The value 0 as a BigInteger. */
-  BigInteger bizero = BigInteger.valueOf(0);  
+  BigInteger bizero = BigInteger.valueOf(0);
 
   /** The value 1 as a BigInteger. */
-  BigInteger bione = BigInteger.valueOf(1);  
+  BigInteger bione = BigInteger.valueOf(1);
 
   // +--------+---------------------------------------------------------
   // | Fields |

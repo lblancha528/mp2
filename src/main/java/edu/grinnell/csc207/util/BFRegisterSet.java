@@ -2,6 +2,8 @@ package edu.grinnell.csc207.util;
 
 /**
  * A register to hold calculated values.
+ * @author Lily Blanchard
+ * for CSC207-01 with Rebelsky
  */
 public class BFRegisterSet {
   // +--------+---------------------------------------------------------

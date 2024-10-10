@@ -5,6 +5,8 @@ import java.math.BigInteger;
 // Parts copied from Unit Testing lab by SamR
 /**
  * An implementation for fractions using BigIntegers.
+ * @author Lily Blanchard
+ * for CSC207-01 with Rebelsky
  */
 public class BigFraction {
   //extended version of lab Fraction
@@ -181,7 +183,7 @@ public class BigFraction {
    */
   public void simplify() {
     BigInteger gcd = this.num.gcd(this.denom);
-    if (this.denom == bizero){
+    if (this.denom == bizero) {
       // if denominator is zero, dont
       return;
     } else if (gcd != bione) {

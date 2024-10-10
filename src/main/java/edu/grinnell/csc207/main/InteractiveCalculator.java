@@ -8,6 +8,8 @@ import edu.grinnell.csc207.util.BFRegisterSet;
 
 /**
  * Continuously takes input from the user and prints the computed results.
+ * @author Lily Blanchard
+ * for CSC207-01 with Rebelsky
  */
 public class InteractiveCalculator {
   // +--------+---------------------------------------------------------
@@ -47,7 +49,7 @@ public class InteractiveCalculator {
   // +---------+--------------------------------------------------------
   // | Methods |
   // +---------+
-  
+
   /**
    * Continuously take input from the user and prints the computed results.
    * @param args
@@ -61,8 +63,6 @@ public class InteractiveCalculator {
     BigFraction result = zeroFrac;
 
     while (!command.equals("QUIT")) {
-      
-      // SAVE STUFF
       while (!foundCommand && !foundSecond) {
         lookingAt = eyes.next();
         char action = sortArg(lookingAt);
@@ -75,7 +75,7 @@ public class InteractiveCalculator {
           // if action was QUIT, quit ASAP
           eyes.close();
           return;
-        }
+        } // else
       } // while a command or second variable have not beed found
 
       BFCalculator calculator = new BFCalculator(firstVal); // set up the calculator
@@ -147,7 +147,7 @@ public class InteractiveCalculator {
       // else if is operand, save as operand
       operand = arg;
       return 'o';
-    } else if (isFracStr(arg) == true) {
+    } else if (isFracStr(arg)) {
       // else, must be a numeric value
       if (!foundFirst) {
         // if first value has not been found, save there
